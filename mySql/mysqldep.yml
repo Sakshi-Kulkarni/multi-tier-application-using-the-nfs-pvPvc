@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mysql
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: docker.io/mysql:5.6
+        name: mysql
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: sakshi
+        - name: MYSQL_DATABASE
+          value: mydb1
+        volumeMounts:
+        - name: mysqlvol 
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysqlvol
+        persistentVolumeClaim:
+          claimName: mysqlpvc
+status: {}
